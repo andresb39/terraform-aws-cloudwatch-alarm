@@ -1,0 +1,29 @@
+resource "aws_cloudwatch_metric_alarm" "nlb_healthyhosts" {
+  count = length(var.target_name)
+
+  alarm_name          = "nlb-healthyhosts-${var.target_name[count.index]}"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 1
+  metric_name         = "HealthyHostCount"
+  namespace           = var.namespace
+  period              = 60
+  statistic           = "Average"
+  threshold           = var.alarm_threshold
+  alarm_description   = "Number of healthy nodes in Target Group"
+  actions_enabled     = true
+  alarm_actions       = [aws_sns_topic.topic.arn]
+  ok_actions          = [aws_sns_topic.topic.arn]
+  # dimensions = {
+  #   TargetGroup  = data.aws_lb_target_group.target[count.index].arn_suffix
+  #   LoadBalancer = data.aws_lb.lb[0].arn_suffix
+  # }
+
+  dynamic "dimensions" {
+    for_each = var.namespace == "AWS/ApplicationELB" ? [1] : []
+    content {
+      LoadBalancer = data.aws_lb.lb[0].arn_suffix
+      TargetGroup  = data.aws_lb_target_group.target[count.index].arn_suffix
+    }
+  }
+
+}
