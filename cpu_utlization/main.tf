@@ -10,9 +10,6 @@ resource "aws_cloudwatch_metric_alarm" "cpu_util_alarm" {
   threshold           = var.alarm_threshold
   alarm_description   = "This metric monitors EC2 CPU utilization"
   dimensions          = { InstanceId = each.key }
-  alarm_actions       = [aws_sns_topic.topic.arn]
-  tags = {
-    environment = var.environment
-    Terraform = true
-  }
+  alarm_actions       = [var.sns_topic_arn]
+  tags = var.tags
 }

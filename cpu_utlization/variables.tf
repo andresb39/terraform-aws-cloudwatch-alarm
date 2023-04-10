@@ -1,13 +1,7 @@
-variable "sns-topic-name" {
+variable "sns-topic-arn" {
   type = string
   default = "mcd-topic-monitoring"
-  description = "value for the name of the sns topic"
-}
-
-variable "email_targets" {
-  type = list(string)
-  default = ["jesusandres.bergano@myclouddoor.com"]
-  description = "value for the email target for the sns topic"
+  description = "value for the arn of the sns topic"
 }
 
 variable "alarm_threshold" {
@@ -28,8 +22,11 @@ variable "alarm_period" {
   description = "value for the period for the alarm"
 }
 
-variable "environment" {
-  type = string
-  default = "dev"
-  description = "value for the environment"
+variable "tags" {
+  type = map(string)
+  default = {
+    managed = "terraform"
+    created_by = "myCloudDoor"
+  }
+  description = "value for the tags for the alarm"
 }

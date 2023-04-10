@@ -1,6 +1,7 @@
 resource "aws_sns_topic" "topic" {
 	# checkov:skip=CKV_AWS_26: ADD REASON
   name = var.sns-topic-name
+  tags = var.tags
 }
 
 resource "aws_sns_topic_subscription" "email_subscription" {

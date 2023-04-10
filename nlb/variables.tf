@@ -1,13 +1,7 @@
-variable "sns-topic-name" {
+variable "sns-topic-arn" {
   type = string
-  default = "mcd-topic-monitoring"
-  description = "value for the name of the sns topic"
-}
-
-variable "email_targets" {
-  type = list(string)
-  default = ["jesusandres.bergano@myclouddoor.com"]
-  description = "value for the email target for the sns topic"
+  default = ""
+  description = "value for the arn of the sns topic"
 }
 
 variable "lb_name" {
@@ -18,7 +12,7 @@ variable "lb_name" {
 
 variable "target_name" {
   type = list(string)
-  default = ["tg-ext-web-services-1444", "tg-ext-web-services-1445", "tg-ext-web-services-1446"]
+  default = []
   description = "value for the name of the target group"
 }
 
@@ -28,20 +22,23 @@ variable "alarm_threshold" {
   description = "value for the threshold for the alarm"
 }
 
-# variable "alarm_evaluation_periods" {
-#   type = number
-#   default = 2
-#   description = "value for the evaluation periods for the alarm"
-# }
+variable "alarm_evaluation_periods" {
+  type = number
+  default = 1
+  description = "value for the evaluation periods for the alarm"
+}
 
-# variable "alarm_period" {
-#   type = number
-#   default = 120
-#   description = "value for the period for the alarm"
-# }
+variable "alarm_period" {
+  type = number
+  default = 60
+  description = "value for the period for the alarm"
+}
 
-# variable "environment" {
-#   type = string
-#   default = "dev"
-#   description = "value for the environment"
-# }
+variable "tags" {
+  type = map(string)
+  default = {
+    managed = "terraform"
+    created_by = "myCloudDoor"
+  }
+  description = "value for the tags for the alarm"
+}
